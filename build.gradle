@@ -1,0 +1,46 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'eclipse'
+
+group = 'org.banyan.spring.boot'
+version = '1.0.0'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+compileJava.options.encoding = 'UTF-8'
+buildDir = 'target'
+
+ext {
+  springBootVersion = '1.5.6.RELEASE'
+  springVersion = '4.3.10.RELEASE'
+  hbaseVersion = '1.1.2'
+  slf4jVersion = '1.7.25'
+}
+
+repositories {
+  mavenLocal()
+  maven { url mavenPublicUrl }
+  maven { url mavenReleaseUrl }
+  maven { url mavenSnapshotUrl }
+  mavenCentral()
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+  classifier = 'sources'
+  from sourceSets.main.allSource
+}
+
+artifacts {
+  archives sourcesJar
+}
+
+dependencies {
+  compile "org.slf4j:slf4j-api:$slf4jVersion"
+  compile "org.springframework.boot:spring-boot-autoconfigure:$springBootVersion"
+  compile "org.springframework:spring-tx:$springVersion"
+  compile ("com.aliyun.hbase:alihbase-client:$hbaseVersion") {
+    exclude group: 'javax.servlet', module: 'servlet-api'
+  }
+
+  testCompile "junit:junit:4.12"
+}

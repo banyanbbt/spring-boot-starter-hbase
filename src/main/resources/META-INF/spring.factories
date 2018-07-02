@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.banyan.spring.boot.starter.hbase.boot.HbaseAutoConfiguration
